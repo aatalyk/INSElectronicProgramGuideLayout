@@ -182,7 +182,7 @@ NSUInteger const INSEPGLayoutMinBackgroundZ = 0.0;
     self.horizontalGridlineHeight = (([[UIScreen mainScreen] scale] == 2.0) ? 0.5 : 1.0);
     self.sectionGap = 10;
     self.floatingItemOverlaySize = CGSizeMake(0, self.sectionHeight);
-    self.floatingItemOffsetFromSection = 10.0;
+    self.floatingItemOffsetFromSection = 0.0;
     self.shouldResizeStickyHeaders = NO;
 
     // Set CurrentTime Behind cell
@@ -464,7 +464,7 @@ NSUInteger const INSEPGLayoutMinBackgroundZ = 0.0;
 
 - (void)prepareFloatingItemAttributesOverlayForSection:(NSUInteger)section sectionFrame:(CGRect)rect
 {
-    CGFloat floatingGridMinX = fmaxf(self.collectionView.contentOffset.x, 0.0) + self.sectionHeaderWidth + self.floatingItemOffsetFromSection;
+    CGFloat floatingGridMinX = fmaxf(self.collectionView.contentOffset.x - 10, 0.0) + self.sectionHeaderWidth + self.floatingItemOffsetFromSection;
 
     for (NSUInteger item = 0; item < [self.collectionView numberOfItemsInSection:section]; item++) {
 
