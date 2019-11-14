@@ -636,7 +636,7 @@ NSUInteger const INSEPGLayoutMinBackgroundZ = 0.0;
 - (void)prepareCurrentIndicatorAttributes
 {
     NSIndexPath *currentTimeIndicatorIndexPath = [NSIndexPath indexPathForRow:0 inSection:0];
-    UICollectionViewLayoutAttributes *currentTimeIndicatorAttributes = [self layoutAttributesForDecorationViewAtIndexPath:currentTimeIndicatorIndexPath ofKind:INSEPGLayoutElementKindCurrentTimeIndicator withItemCache:self.currentTimeIndicatorAttributes];
+    UICollectionViewLayoutAttributes *currentTimeIndicatorAttributes = [self layoutAttributesForSupplementaryViewAtIndexPath:currentTimeIndicatorIndexPath ofKind:INSEPGLayoutElementKindCurrentTimeIndicator withItemCache:self.currentTimeIndicatorAttributes];
 
     NSIndexPath *currentTimeHorizontalGridlineIndexPath = [NSIndexPath indexPathForRow:0 inSection:0];
     UICollectionViewLayoutAttributes *currentTimeHorizontalGridlineAttributes = [self layoutAttributesForDecorationViewAtIndexPath:currentTimeHorizontalGridlineIndexPath ofKind:INSEPGLayoutElementKindCurrentTimeIndicatorVerticalGridline withItemCache:self.currentTimeVerticalGridlineAttributes];
@@ -723,6 +723,8 @@ NSUInteger const INSEPGLayoutMinBackgroundZ = 0.0;
 
     } else if (kind == INSEPGLayoutElementKindFloatingItemOverlay) {
         return self.floatingItemAttributes[indexPathKey];
+    } else if (kind == INSEPGLayoutElementKindCurrentTimeIndicator) {
+        return self.currentTimeIndicatorAttributes[indexPathKey];
     }
 
     return nil;
@@ -732,10 +734,8 @@ NSUInteger const INSEPGLayoutMinBackgroundZ = 0.0;
 {
     NSIndexPath *indexPathKey = [self keyForIndexPath:indexPath];
 
-    if (decorationViewKind == INSEPGLayoutElementKindCurrentTimeIndicator) {
-        return self.currentTimeIndicatorAttributes[indexPathKey];
-    }
-    else if (decorationViewKind == INSEPGLayoutElementKindCurrentTimeIndicatorVerticalGridline) {
+
+    if (decorationViewKind == INSEPGLayoutElementKindCurrentTimeIndicatorVerticalGridline) {
         return self.currentTimeVerticalGridlineAttributes[indexPathKey];
     }
     else if (decorationViewKind == INSEPGLayoutElementKindVerticalGridline) {
