@@ -508,6 +508,8 @@ NSUInteger const INSEPGLayoutMinBackgroundZ = 0.0;
 
 - (void)prepareItemAttributesForSection:(NSUInteger)section sectionFrame:(CGRect)rect
 {
+    CGFloat floatingGridMinX = fmaxf(self.collectionView.contentOffset.x, 0.0) + self.sectionHeaderWidth + self.floatingItemOffsetFromSection;
+    
     for (NSUInteger item = 0; item < [self.collectionView numberOfItemsInSection:section]; item++) {
         NSIndexPath *itemIndexPath = [NSIndexPath indexPathForItem:item inSection:section];
         
@@ -521,6 +523,9 @@ NSUInteger const INSEPGLayoutMinBackgroundZ = 0.0;
         
         CGFloat itemStartTimePositionX = [self xCoordinateForDate:itemStartTime];
         CGFloat itemEndTimePositionX = [self xCoordinateForDate:itemEndTime];
+        
+        itemStartTimePositionX = fmax(itemStartTimePositionX, floatingGridMinX);
+        
         CGFloat itemWidth = itemEndTimePositionX - itemStartTimePositionX;
         
         UICollectionViewLayoutAttributes *itemAttributes = [self layoutAttributesForCellAtIndexPath:itemIndexPath withItemCache:self.itemAttributes];
@@ -542,11 +547,8 @@ NSUInteger const INSEPGLayoutMinBackgroundZ = 0.0;
     sectionAttributes.frame = CGRectMake(sectionMinX, sectionY, self.sectionHeaderWidth, self.sectionHeight);
     sectionAttributes.zIndex = [self zIndexForElementKind:INSEPGLayoutElementKindSectionHeader floating:YES];
 
-    if (needsToPopulateItemAttributes) {
-        [self prepareItemAttributesForSection:section sectionFrame:sectionAttributes.frame];
-    }
     if (self.shouldUseFloatingItemOverlay) {
-        [self prepareFloatingItemAttributesOverlayForSection:section sectionFrame:sectionAttributes.frame];
+        [self prepareItemAttributesForSection:section sectionFrame:sectionAttributes.frame];
     }
 }
 
